@@ -7,12 +7,12 @@ import java.util.InputMismatchException;
 
 public class App {
 
-    public static int tamv = 0;
+    public static int tamaño = 0;
     public static Scanner leer = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
 
-        boolean condiciosalida = true;
+        boolean continuar = true;
 
         do {
 
@@ -20,9 +20,10 @@ public class App {
 
                 System.out.println("----------------------------------------------------------------------------------------------");
                 System.out.println(
-                        "Ingrese el tamaño del arreglo que no supere los 16 y sea mayor a 1 y que tampoco sea negativo ");
-                tamv = leer.nextInt();//10
-                condiciosalida = (tamv >= 2 && tamv <= 16) ? false : true;
+                        "Ingrese el tamaño del arreglo");
+                        System.out.println("Tamaño maximo 16, tamaño minimo 1.");
+                tamaño = leer.nextInt();//10
+                continuar = (tamaño >= 2 && tamaño <= 16) ? false : true;
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -31,45 +32,61 @@ public class App {
                 leer.nextLine();
             }
 
-        } while (condiciosalida);
+        } while (continuar);
 
-        //recibimos el array del metodo
-        int array[] = llenado();
+
+        int array[] = llenado(); //Se recibe el array del método.
 
         System.out.println("---------------------------------------------------------------------------------------------- \n");
-        System.out.println("Mostrando los datos en orden normal.");
+        System.out.println("Mostrando los datos en orden NORMAL.");
 
-        Mostrar(array);
-        Mostrar_inv(array);
+        Mostrar(array); //Llama método para imprimir en orden normal.
+        Mostrar_inv(array); //Llama método para imprimir en orden inverso.
 
     }
 
+    //METODO NUMERO 1 "Llenado"
     public static int[] llenado() { //retorna los valores para el arreglo.
 
-        int[] arreglo = new int[tamv];
+        boolean continuar2= true;
+        int[] arreglo = new int[tamaño];
 
-        for (int i = 0; i < arreglo.length; i++) {
-            System.out.println("ingrese el valor "+ (i + 1));
-            arreglo[i] = leer.nextInt();
-        }
+        do{
+            try{    //Captura si el usuario ingresa valores que no sean de tipo Int.
+                for (int i = 0; i < arreglo.length; i++) {  //Capturando datos desde el usuario.
+                    System.out.print("Ingrese el valor "+ (i + 1)+": ");
+                    arreglo[i] = leer.nextInt();
+                }
+                
+            }catch(InputMismatchException inputMismatchException){  //Excepción.
+                System.out.println("Por favor ingrese valores enteros.");
+                System.out.println("----------------------------------------------------------------------------------------------");
+                leer.nextLine();
+                continue;
+            }
+            
+            continuar2 = false; //Cierra el ciclo si el usuario ingreso los datos correctos.
 
+        }while(continuar2);
         return arreglo;
+        
     }
 
+    //METODO NUMERO 2 "Mostrar orden normal"
     public static void Mostrar(int[] a) {   //Recibe como parametros los valores del arreglo para mostrarlos.
 
         for (int i : a) {
             System.out.println(i);
-            
 
         }
 
         System.out.println("---------------------------------------------------------------------------------------------- \n");
     }
 
-    public static void Mostrar_inv(int[] a) {
+    //METODO NUMERO 3 "Mostrar en orden inverso"
+    public static void Mostrar_inv(int[] a) {   //Método para imprimir los valores inverso.
 
-        System.out.println("Mostrando los datos en orden inverso.");
+        System.out.println("Mostrando los datos en orden INVERSO.");
         for (int i = a.length - 1; i >= 0; i--) {
             System.out.println(a[i] + " ");
         }
